@@ -15,39 +15,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  // Define the pages for each tab
+  static const List<Widget> _pages = <Widget>[
+    Center(child: Text('Home Page')),
+    Center(child: Text('Statics Page')),
+    Center(child: Text('My Cards Page')),
+    Center(child: Text('Profile Page')),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text(
-          'Dashboard Screen',
-          style: TextStyle(fontSize: 24),
+      body: _pages[_selectedIndex], // Display the selected page
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.qr_code_scanner),
+        backgroundColor: Colors.green,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            _buildNavItem(Icons.home, 'Home', 0),
+            _buildNavItem(Icons.bar_chart, 'Statistics', 1),
+            SizedBox(width: 48), // The space for the FAB
+            _buildNavItem(Icons.credit_card_sharp, 'My Cards', 2),
+            _buildNavItem(Icons.person, 'Profile', 3),
+          ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Statistics',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.credit_card_sharp),
-            label: 'My Cards',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    return InkWell(
+      onTap: () {
+        _onItemTapped(index);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              icon,
+              color: _selectedIndex == index ? Colors.green : Colors.grey,
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: _selectedIndex == index ? Colors.green : Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
