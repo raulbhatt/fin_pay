@@ -1,4 +1,5 @@
 
+import 'package:fin_pay/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -15,10 +16,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  Future<void> _openCamera() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => QRScannerScreen()),
+    );
+    if (result != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Scanned QR code: $result')),
+      );
+    }
+  }
+
   // Define the pages for each tab
   static const List<Widget> _pages = <Widget>[
     Center(child: Text('Home Page')),
-    Center(child: Text('Statistics Page')),
+    Center(child: Text('Statics Page')),
     Center(child: Text('My Cards Page')),
     Center(child: Text('Profile Page')),
   ];
@@ -28,10 +41,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: _pages[_selectedIndex], // Display the selected page
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _openCamera,
         shape: const CircleBorder(),
+        child: const Icon(Icons.qr_code_scanner),
         backgroundColor: Colors.green,
-        child: const Icon(Icons.qr_code_scanner,color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
