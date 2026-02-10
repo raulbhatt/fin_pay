@@ -1,4 +1,5 @@
 
+import 'package:fin_pay/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
@@ -27,13 +28,13 @@ class _FingerprintScreenState extends State<FingerprintScreen> {
     if (!mounted) return;
 
     if (authenticated) {
-      // TODO: Navigate to the next screen
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Authentication successful!')),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Authentication failed.')),
+        SnackBar(content: Text('Authentication failed.')),
       );
     }
   }
@@ -77,13 +78,13 @@ class _FingerprintScreenState extends State<FingerprintScreen> {
                 backgroundColor: Colors.green,
                 minimumSize: Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               onPressed: _authenticate,
               child: Text(
                 'Turn on Touch ID',
-                style: TextStyle(fontSize: 18,color: Colors.white),
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ],
