@@ -31,10 +31,23 @@ class _VerificationOTPScreenState extends State<VerificationOTPScreen> {
   }
 
   void _onOtpChanged(String value, int index) {
-    if (value.length == 1 && index < 3) {
-      _focusNodes[index + 1].requestFocus();
+    if (value.length == 1) {
+      if (index < 3) {
+        _focusNodes[index + 1].requestFocus();
+      } else {
+        _verifyOtp();
+      }
     } else if (value.isEmpty && index > 0) {
       _focusNodes[index - 1].requestFocus();
+    }
+  }
+
+  void _verifyOtp() {
+    FocusScope.of(context).unfocus();
+    String otp = _controllers.map((e) => e.text).join();
+    print("Entered OTP: $otp");
+    if (otp.length == 4) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => FingerprintScreen()));
     }
   }
 
@@ -127,11 +140,7 @@ class _VerificationOTPScreenState extends State<VerificationOTPScreen> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
-                        String otp = _controllers.map((e) => e.text).join();
-                        print("Entered OTP: $otp");
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => FingerprintScreen()));
-                      },
+                      onPressed: _verifyOtp,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: Colors.transparent,

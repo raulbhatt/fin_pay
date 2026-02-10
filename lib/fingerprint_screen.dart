@@ -1,7 +1,43 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
 
-class FingerprintScreen extends StatelessWidget {
+class FingerprintScreen extends StatefulWidget {
+  @override
+  _FingerprintScreenState createState() => _FingerprintScreenState();
+}
+
+class _FingerprintScreenState extends State<FingerprintScreen> {
+  final LocalAuthentication auth = LocalAuthentication();
+
+  Future<void> _authenticate() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+        localizedReason: 'Scan your fingerprint to authenticate',
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    if (authenticated) {
+      // TODO: Navigate to the next screen
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Authentication successful!')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Authentication failed.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +49,7 @@ class FingerprintScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Enable fingerprint Authentiation',
+              'Login with your fingerprint',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 28,
@@ -22,7 +58,7 @@ class FingerprintScreen extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              'Login with your fingerprint',
+              'Login with your fingerprint stored on your phone to get faster, easier access to your mobile banking app',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -41,11 +77,10 @@ class FingerprintScreen extends StatelessWidget {
                 backgroundColor: Colors.green,
                 minimumSize: Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
+                  borderRadius: BorderRadius.circular(30),
+                ),
               ),
-              onPressed: () {
-
-              },
+              onPressed: _authenticate,
               child: Text(
                 'Turn on Touch ID',
                 style: TextStyle(fontSize: 18,color: Colors.white),
