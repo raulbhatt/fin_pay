@@ -1,8 +1,11 @@
 
+import 'package:fin_pay/dashboard_screen.dart';
 import 'package:fin_pay/reset_password_screen.dart';
 import 'package:fin_pay/signup_screen.dart';
 import 'package:fin_pay/verification_otp_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,6 +16,34 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final LocalAuthentication auth = LocalAuthentication();
+
+  Future<void> _authenticate() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+        localizedReason: 'Scan your fingerprint to authenticate',
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    if (authenticated) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Authentication failed.')),
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -48,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 40),
                     const Text(
                       'Welcome Back',
                       style: TextStyle(
@@ -65,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: 24),
                     const Text(
                       'Email',
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -92,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
                     const Text(
                       'Password',
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -179,6 +210,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
+                    GestureDetector(
+                      onTap: _authenticate,
+                      child: const Column(
+                        children: [
+                          Icon(
+                            Icons.fingerprint,
+                            color: Colors.white,
+                            size: 70,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Login with Touch ID',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -232,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 48),
+                    const SizedBox(height: 14),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

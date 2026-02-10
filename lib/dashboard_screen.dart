@@ -18,7 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // Define the pages for each tab
   static const List<Widget> _pages = <Widget>[
     Center(child: Text('Home Page')),
-    Center(child: Text('Statics Page')),
+    Center(child: Text('Statistics Page')),
     Center(child: Text('My Cards Page')),
     Center(child: Text('Profile Page')),
   ];
@@ -29,19 +29,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: _pages[_selectedIndex], // Display the selected page
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.qr_code_scanner),
+        shape: const CircleBorder(),
         backgroundColor: Colors.green,
+        child: const Icon(Icons.qr_code_scanner,color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             _buildNavItem(Icons.home, 'Home', 0),
             _buildNavItem(Icons.bar_chart, 'Statistics', 1),
-            SizedBox(width: 48), // The space for the FAB
+            const SizedBox(width: 48), // The space for the FAB
             _buildNavItem(Icons.credit_card_sharp, 'My Cards', 2),
             _buildNavItem(Icons.person, 'Profile', 3),
           ],
