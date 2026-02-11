@@ -1,6 +1,9 @@
 
+import 'package:fin_pay/profile_screen.dart';
 import 'package:fin_pay/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'home_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -30,10 +33,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Define the pages for each tab
   static const List<Widget> _pages = <Widget>[
-    Center(child: Text('Home Page')),
+    HomeScreen(),
     Center(child: Text('Statics Page')),
     Center(child: Text('My Cards Page')),
-    Center(child: Text('Profile Page')),
+    ProfileScreen(),
   ];
 
   @override
@@ -43,8 +46,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _openCamera,
         shape: const CircleBorder(),
-        child: const Icon(Icons.qr_code_scanner),
-        backgroundColor: Colors.green,
+        child: const Icon(Icons.qr_code_scanner, color: Colors.white,),
+        backgroundColor: Colors.green[700],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
