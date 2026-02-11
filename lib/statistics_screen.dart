@@ -17,47 +17,54 @@ class StatisticsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Total Spending',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                '\$35,000',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Total Spending',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        '\$35,000',
+                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: 'Monthly',
-                      icon: const Icon(Icons.arrow_drop_down),
-                      items: <String>['Monthly', 'Yearly']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {},
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: 'Monthly',
+                        icon: const Icon(Icons.arrow_drop_down),
+                        items: <String>['Monthly', 'Yearly']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {},
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
               const SizedBox(height: 24),
               SizedBox(
@@ -160,12 +167,12 @@ class StatisticsScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _buildInfoCard(
-                        'Income', '20,000', Icons.arrow_downward, Colors.green),
+                        'Income', '\$20,000', Icons.arrow_downward, Colors.green),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: _buildInfoCard(
-                        'Expenses', '15,000', Icons.arrow_upward, Colors.red),
+                        'Expenses', '\$15,000', Icons.arrow_upward, Colors.red),
                   ),
                 ],
               ),
@@ -178,7 +185,7 @@ class StatisticsScreen extends StatelessWidget {
               _buildTransactionItem(
                 'Netflix Subscription',
                 'Today, 12:00 PM',
-                '-80.25',
+                '-\$80.25',
                 'Payment',
                 const CircleAvatar(
                   backgroundColor: Colors.red,
