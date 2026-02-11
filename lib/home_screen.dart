@@ -1,4 +1,4 @@
-
+import 'package:fin_pay/notification_screen.dart';
 import 'package:fin_pay/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +37,14 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.notifications, color: Colors.white),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NotificationScreen(),
+                          ),
+                        );
+                      },
                     ),
                     IconButton(
                       icon: const Icon(Icons.qr_code, color: Colors.white),
